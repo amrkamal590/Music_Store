@@ -1,0 +1,48 @@
+/* Query 1 - query used for  calculating top 5 genres in this dataset
+
+SELECT         g.name, COUNT(t.GenreId) AS genre_count
+FROM             genre AS g
+                        JOIN track AS t ON g.GenreId = t.GenreId
+GROUP BY    g.name
+ORDER BY    genre_count DESC
+LIMIT 5;
+--------------------------------------------------------------------------------------------------------------
+
+/* Query 2 - query used for  calculating top 10 songs in this dataset
+
+SELECT               al.artistid, a.name, Count(al.title) AS song 
+FROM                  album al 
+                            JOIN artist a  ON a.artistid = al.artistid 
+                           JOIN track t   ON al.albumid = t.albumid 
+                          JOIN genre g  ON g.genreid = t.genreid 
+GROUP  BY    1 
+ORDER  BY    3 DESC 
+LIMIT  10; 
+--------------------------------------------------------------------------------------------------------------
+
+/* Query 3 - query used for  calculating top 5 Artist in this dataset
+
+SELECT            i.customerid, c.firstname, c.lastname, 
+                          Sum(Il.unitprice) AS UnitPrice
+FROM               invoice i 
+                         JOIN invoiceline Il    ON i.invoiceid = Il.invoiceid 
+                        JOIN customer c      ON c.customerid = i.customerid 
+GROUP  BY   1 
+ORDER  BY   4 DESC 
+LIMIT  5;
+--------------------------------------------------------------------------------------------------------------
+
+/* Query 3 - query used for  calculating top 10 rock countries in this dataset
+
+SELECT              BillingCountry, COUNT(*) AS Rock_Songs
+FROM                 Invoice i
+	          JOIN InvoiceLine il ON i.InvoiceId = il.InvoiceId
+	          JOIN Track T ON il.TrackId = T.TrackId
+	          JOIN Genre G ON T.GenreId = G.Genreid
+WHERE             G.Name ='Rock'
+GROUP BY       BillingCountry
+ORDER BY       Rock_Songs DESC, BillingCountry
+LIMIT 10;
+--------------------------------------------------------------------------------------------------------------
+
+

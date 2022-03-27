@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:\Work\Learning Online\Advanced Data Analysis Track Projects\chinook-db\chinook_db\chinook.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3954"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,5:mainAlbum"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Album" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="61"/><column index="2" value="300"/><column index="3" value="59"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Genre" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="112"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Invoice" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths/><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="InvoiceLine" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths/><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Track" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths/><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Top 5 genres">SELECT   g.name, COUNT(t.GenreId) AS genre_count
+FROM     genre AS g
+         JOIN track AS t ON g.GenreId = t.GenreId
+GROUP BY g.name
+ORDER BY genre_count DESC
+LIMIT 5;</sql><sql name="Top 10 Songs">SELECT al.artistid, 
+       a.name, 
+       Count(al.title) AS song 
+FROM   album al 
+       JOIN artist a ON a.artistid = al.artistid 
+       JOIN track t  ON al.albumid = t.albumid 
+       JOIN genre g  ON g.genreid = t.genreid 
+GROUP  BY 1 
+ORDER  BY 3 DESC 
+LIMIT  10; </sql><sql name="Top 5 Artists With Selling unit price">SELECT i.customerid, 
+       c.firstname, 
+       c.lastname, 
+       Sum(Il.unitprice) AS UnitPrice
+FROM   invoice i 
+       JOIN invoiceline Il 
+         ON i.invoiceid = Il.invoiceid 
+       JOIN customer c 
+         ON c.customerid = i.customerid 
+GROUP  BY 1 
+ORDER  BY 4 DESC 
+LIMIT  5;</sql><sql name="Top 10 Rock Countries">SELECT     BillingCountry, COUNT(*) AS Rock_Songs
+FROM       Invoice i
+	       JOIN InvoiceLine il ON i.InvoiceId = il.InvoiceId
+	       JOIN Track T ON il.TrackId = T.TrackId
+	       JOIN Genre G ON T.GenreId = G.Genreid
+WHERE      G.Name ='Rock'
+GROUP BY   BillingCountry
+ORDER BY   Rock_Songs DESC, BillingCountry
+LIMIT 10;</sql><current_tab id="3"/></tab_sql></sqlb_project>
